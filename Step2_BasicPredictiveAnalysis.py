@@ -36,13 +36,12 @@ style.use('ggplot')
 
 random.seed(190)
 
-
-#prepare data
+##########prepare data##########
+############################################################
 df3 = pd.read_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and health 2012/ICPSR_34933/DS0001/df3.csv")
 
 '''separate out just adults (participants over 17 years old)'''
 dfAdult = df3.loc[df3['AGE12_17'] != 1]
-
 
 '''
 How many missing per variable? I examined this in groups of 50'''
@@ -51,8 +50,6 @@ pd.isnull(dfAdult1.ix[:,51:100]).sum()
 pd.isnull(dfAdult1.ix[:,101:150]).sum()
 pd.isnull(dfAdult1.ix[:,151:200]).sum()
 pd.isnull(dfAdult1.ix[:,201:251]).sum()
-
-
 
 dfAdult1 = dfAdult.ix[:,['RSKPKCIG', 'RSKMJOCC', 'RKTRYLSD', 'RKTRYHER', 
 'RKCOCOCC', 'RK5ALWK', 'RSKDIFMJ', 'RKDIFLSD', 'RKDIFCOC', 'RKDIFCRK', 'RKFQDNGR', 'RKFQRSKY', 'RKFQPBLT', 'RKFQDBLT', 'NMERTMT2', 'SNYSELL', 'SNYSTOLE', 'SNYATTAK',
@@ -70,10 +67,8 @@ dfAdult1 = dfAdult.ix[:,['RSKPKCIG', 'RSKMJOCC', 'RKTRYLSD', 'RKTRYHER',
 'HISPANIC', 'FULLTIME', 'PARTTIME', 'UNEMPLOYED', 'OTHER','AGE18_25','AGE26_34','AGE35_49',
 'AGE50_64','AGE65','COUNTY_LARGE','COUNTY_SMALL','COUNTY_NONMETRO']]
 
-
 dfAdult2 = dfAdult1.dropna(axis=0)
 dfAdult2.to_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and health 2012/ICPSR_34933/DS0001/dfAdult2.csv", index=False)  
-
 
 '''#plot distributions of outcome variables'''
 
@@ -367,9 +362,10 @@ We could also explore these variables in greater detail. For example, TXEVER (ev
 treatment for drugs/alcohol) could be further explored with the feature AUMOTVYR,
 which is what prompted people to get treatment for past mental health issues -- such as whether
 they did so voluntarily or not. But it's unclear if people who were forced to receive 
-mental health treatment where treated for drug/alcohol abuse or not.
+mental health treatment where treated for drug/alcohol abuse or not.'''
 
-PCA ANALYSIS###################################'''
+##########PCA ANALYSIS##########
+############################################################
 
 trainX = train.drop(['BOOKED'], axis=1)
 testX = test.drop(['BOOKED'], axis=1)
@@ -440,7 +436,3 @@ reduced overfitting - by reducing the number of features in an orthogonal manner
 we were able to remove variables which just added noise to the train model - so the random
 forest trained on that noise in the benchmark model. In addition, we gain power through
 the reduction of dimensionality. Nevertheless, PCA depricated the model slightly.
-
-
-
-
