@@ -23,7 +23,8 @@ random.seed( 190 )
 print(os.getcwd())
 df =  pd.read_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and health 2012/ICPSR_34933/DS0001/Data.tsv", sep="\t")
 
-#####################################Basic data exploration:
+##########Basic data exploration:##########
+############################################################
 pd.set_option('display.max_columns', 200) 
 df.head(3)
 df.shape
@@ -33,9 +34,10 @@ df['CIGEVER'].unique()
 df['CIGEVER'].value_counts()
 df['CIGTRY'].value_counts()
 
-'''...and so on...
+#...and so on...
 
-#################################Select Potentially Useful Features'''
+##########Select Potentially Useful Features##########
+############################################################
 
 #subset all rows and the listed column names
 df1 = pd.DataFrame(df)[['CIGEVER','CIGTRY','CIG30AV','SNFEVER','CHEWTRY','CIGAREVR','PIPEVER','ALCEVER',
@@ -76,7 +78,8 @@ df1.to_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and
 #load the smaller dataset
 df1 = pd.read_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and health 2012/ICPSR_34933/DS0001/df1.csv")
 
-##########################Examine features       
+##########Examine features##########
+############################################################
 
 '''Significant recoding is necessary:
 (1) Convert some values to missing
@@ -367,7 +370,7 @@ dfC = dfC.replace(2,1)
 #recombind dataset
 df3 = pd.concat([dfQZ, dfC, MARITAL,RACE,EMPLOY,AGECAT,COUNTY], axis=1)
 
-'''###############check/remove collinearity  (highly correlated variables)'''
+#check/remove collinearity  (highly correlated variables)
 
 DataFrame.corr(method='pearson', min_periods=1)
 
@@ -375,7 +378,7 @@ dfQZ.ix[:,11:20].corr(method='pearson',min_periods=1)
 dfC.ix[:,1:10].corr(method='pearson',min_periods=1)
 #not as bad as I feared
 
-'''##############################missing values'''
+#missing values
 #count number of missing per feature
 pd.isnull(df2.ix[:,240:260]).sum()
 
@@ -391,7 +394,4 @@ df.dropna(axis=0)   #drop columns with missing data
 also this: from sklearn.preprocessing import Imputer'''
 
 df3.to_csv('df3.csv', index=False)  
-
-
-
 
