@@ -37,10 +37,9 @@ style.use('ggplot')
 
 random.seed(190)
 
-
-#########prepare data
+##########prepare data##########
+############################################################
 dfAdult2 = pd.read_csv("C:/Users/piccone/Desktop/DS projects/national survey on drug use and health 2012/ICPSR_34933/DS0001/dfAdult2.csv")
-
 
 msk = np.random.rand(len(dfAdult2)) < 0.75
 train = dfAdult2[msk]
@@ -51,7 +50,6 @@ testX = test.drop(['BOOKED'], axis=1)
 
 trainY = train['BOOKED']
 testY = test['BOOKED']
-
 
 #test weighting for stacked ensemble (this section of code is adapted from Julian, 2016):
 def vclas(w1,w2,w3, w4, w5):
@@ -98,9 +96,8 @@ def vclas(w1,w2,w3, w4, w5):
 
 vclas(2,1.5,2,2,2)
 
-
-
-#Fit final model:
+##########Fit final model##########
+######################################################################
 clf1 = LogisticRegression(random_state=123)
 clf2 = GaussianNB()
 clf3 = RandomForestClassifier(n_estimators=100, random_state=123)
@@ -113,7 +110,6 @@ clf3.fit(trainX, trainY)
 clf4.fit(trainX, trainY)
 clf5.fit(trainX, trainY)
 
-
 eclf = VotingClassifier(estimators=[('lr', clf1), ('gnb', clf2), ('rf', clf3),('et',clf4),('gb',clf5)],
                             voting='soft',
                             weights=[2, 1.5, 2, 2, 2])
@@ -122,7 +118,6 @@ disbursed = eclf1.predict_proba(testX)
 fpr, tpr, thresholds = metrics.roc_curve(testY, disbursed[:,1])
 metrics.auc(fpr, tpr) 
 #.830
-
 
 '''Let's try using stacked generalization for overall health'''
 #use two training sets
@@ -230,16 +225,12 @@ mse = mean_squared_error(TotalTestY, preds)
 math.sqrt(mse)
 #.882  (compared with .889)
 
-
 #stack with rf meta-regressor
 preds= rf.predict(TotalTestX)
 mse = mean_squared_error(TotalTestY, preds)
 #.8177
 math.sqrt(mse)
 #.904  
-
-
-
 
 '''plot religious services by health. I group them below, for ease of presentation,
 into two groups, the healthy group (who responded that they are excellent, very good, or good)
@@ -255,10 +246,8 @@ df5 = pd.DataFrame(df4)
 df5 = df5.dropna(axis=0)
 df5.columns = ['Health','RServices']
 
-
 len(df5['RServices'][df5.Health < 3])
 len(df5['RServices'][df5.Health > 3])
-
 
 n_groups = 6
 y1 = (df5['RServices'][df5.Health < 3].value_counts())/len(df5[df5.Health < 3])
@@ -284,10 +273,3 @@ plt.tight_layout()
 plt.show()
 
 '''Less healthy people are less likely to attend religious services. 
-
-
-
-
-
-
-
